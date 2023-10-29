@@ -1,6 +1,4 @@
-function root = newton_method_project1(x_0, func_str, func_prime_str, e_a, i)
-    func = str2func(['@(x)', func_str]);
-    func_prime = str2func(['@(x)', func_prime_str]);
+function root = newton_method_project1(x_0, func_handle, func_prime_handle, e_a, i)
 
     iter = 0;
     x = x_0;
@@ -13,7 +11,7 @@ function root = newton_method_project1(x_0, func_str, func_prime_str, e_a, i)
         x_old = x;
 
         % Compute the new estimate using the Newton formula
-        x = x_old - func(x_old) / func_prime(x_old);
+        x = x_old - feval(func_handle, x_old) / feval(func_prime_handle, x_old);
 
         % Store the new x value for plotting
         x_vals = [x_vals x];

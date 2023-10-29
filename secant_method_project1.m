@@ -1,6 +1,5 @@
-function secant_method_project1(x0, x1, func_str, eps, max_iter)
-    f = str2func(['@(x)', func_str]);
-    [solution, no_iterations, x_vals, ea_vals] = secant(f, x0, x1, eps, max_iter);
+function root = secant_method_project1(x0, x1, func_str, eps, max_iter)
+    [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, eps, max_iter);
 
     if no_iterations > 0  % Solution found
         fprintf('Number of function calls: %d\n', 2 + no_iterations);
@@ -29,9 +28,9 @@ function secant_method_project1(x0, x1, func_str, eps, max_iter)
     grid on;
 end
 
-function [solution, no_iterations, x_vals, ea_vals] = secant(f, x0, x1, eps, max_iter)
-    f_x0 = f(x0);
-    f_x1 = f(x1);
+function [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, eps, max_iter)
+    f_x0 = feval(func_str, x0);
+    f_x1 = feval(func_str, x1);
     iteration_counter = 0;
 
     x_vals = [];
@@ -49,7 +48,7 @@ function [solution, no_iterations, x_vals, ea_vals] = secant(f, x0, x1, eps, max
         x0 = x1;
         x1 = x;
         f_x0 = f_x1;
-        f_x1 = f(x1);
+        f_x1 = feval(func_str, x1);
 
         % Store the new x value for plotting
         x_vals = [x_vals x];

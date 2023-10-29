@@ -41,18 +41,26 @@ while true
         case 3
             disp('You selected Fixed-Point Iteration.');
 
+            func = input('Enter the function f(x) for Fixed-Point Iteration: ', 's');
             g_func = input('Enter the function g(x) for Fixed-Point Iteration: ', 's');
 
             x_0 = input('Enter the initial guess (x_0): ');
             e_a = input('Enter the error tolerance (e_a, in percentage): ');
             i = input('Enter the maximum number of iterations (i): ');
 
-            root = fixed_point_iteration(x_0, g_func, e_a, i);
+            root = fixed_point_iteration_project1(x_0, func, g_func, e_a, i);
 
         case 4
-            disp('You selected Newton Method.');
+          disp('You selected Newton Method.');
 
-            root = newton_method();
+          func_str = input('Enter the name of the function for root finding (e.g., "trajectory_equation"): ', 's');
+          func_prime_str = input('Enter the name of the derivative function (e.g., "d_trajectory_equation"): ', 's');
+
+          x_0 = input('Enter the initial guess (x_0): ');
+          e_a = input('Enter the error tolerance (e_a, in percentage): ');
+          i = input('Enter the maximum number of iterations (i): ');
+
+          root = newton_method_project1(x_0, func_str, func_prime_str, e_a, i);
 
         case 5
             disp('You selected Secant.');
@@ -61,7 +69,7 @@ while true
             func_str = input('Enter function as a string: ', 's');
             tolerance = input('Enter error tolerance: ');
             max_iter = input('Enter max iterations: ');
-            root = secant_method(x0, x1, func_str, tolerance, max_iter);
+            root = secant_method_project1(x0, x1, func_str, tolerance, max_iter);
 
         case 6
             disp('You selected Modified Secant.');

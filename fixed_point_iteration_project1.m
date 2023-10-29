@@ -1,21 +1,21 @@
 function root = fixed_point_iteration_project1(x_0, f_func_str, g_func_str, e_a, i)
     iter = 0;
     x = x_0;
-    f_func = str2func(['@(x)', f_func_str]);
-    g_func = str2func(['@(x)', g_func_str]);
 
     x_vals = []; % To store root approximations
     ea_vals = []; % To store error approximations
 
     while iter < i
-        % Step 1: Calculate y = g(x_0)
-        y = g_func(x);
+        x_old = x; % Store old value for error calculation
 
-        % Step 2: Let x_1 = g(x_0)
+        % Step 1: Calculate y = g(x_0)
+        y = feval(g_func_str, x);
+
+        % Step 2: Let x1 = g(x_0)
         x1 = y;
 
         % Step 3: Examine if x1 is the solution of f(x) = 0
-        f_x1 = f_func(x1);
+        f_x1 = feval(f_func_str, x1);
 
         x_vals = [x_vals x1]; % Store the new x value for plotting
 
@@ -26,7 +26,7 @@ function root = fixed_point_iteration_project1(x_0, f_func_str, g_func_str, e_a,
         % Step 4: If not, repeat the iteration
         x = x1;
 
-        ea = abs((x1 - x) / x1) * 100;
+        ea = abs((x1 - x_old) / x1) * 100;
         ea_vals = [ea_vals ea]; % Store the new error value for plotting
 
         iter = iter + 1;
