@@ -1,9 +1,8 @@
-function root = newton_method_project1(x_0, func_handle, func_prime_handle, e_a, i)
-
+function [x_vals, ea_vals] = newton_method_project1(x_0, func_handle, func_prime_handle, e_a, i)
     iter = 0;
     x = x_0;
 
-    % Initialize vectors for storing x-values and errors for plotting
+    % Initialize vectors for storing x-values and errors for output
     x_vals = [];
     ea_vals = [];
 
@@ -13,7 +12,7 @@ function root = newton_method_project1(x_0, func_handle, func_prime_handle, e_a,
         % Compute the new estimate using the Newton formula
         x = x_old - feval(func_handle, x_old) / feval(func_prime_handle, x_old);
 
-        % Store the new x value for plotting
+        % Store the new x value for output
         x_vals = [x_vals x];
 
         iter = iter + 1;
@@ -21,7 +20,7 @@ function root = newton_method_project1(x_0, func_handle, func_prime_handle, e_a,
         if x ~= 0
             ea = abs((x - x_old) / x) * 100;
 
-            % Store the new error value for plotting
+            % Store the new error value for output
             ea_vals = [ea_vals ea];
 
             if ea < e_a
@@ -30,27 +29,7 @@ function root = newton_method_project1(x_0, func_handle, func_prime_handle, e_a,
         end
     end
 
-    root = x;
-    disp(['The root is ', num2str(root), ' found in ', num2str(iter), ' iterations.']);
-
-    % Create a single figure window
-    figure;
-
-    % Plot the convergence of the root in the first subplot
-    subplot(1, 2, 1);
-    plot(1:iter, x_vals, '-o');
-    title('Convergence of the Newton Method for Root Finding');
-    xlabel('Iteration');
-    ylabel('Estimated Root x');
-    grid on;
-
-    % Plot the error approximation in the second subplot
-    subplot(1, 2, 2);
-    plot(1:iter, ea_vals, '-o');
-    title('Error Approximation of the Newton Method');
-    xlabel('Iteration');
-    ylabel('Error Approximation (%)');
-    grid on;
-
+    % Return the root and error vectors
+    disp(['The root is ', num2str(x), ' found in ', num2str(iter), ' iterations.']);
 end
 

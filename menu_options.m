@@ -9,22 +9,21 @@ while true
     disp('7. MATLAB fzero');
     disp('8. Muller');
     disp('9. MATLAB roots');
-    disp('10. Exit');
+    disp('10. All');
+    disp('11. Exit');
 
     choice = input('Enter the number corresponding to your choice: ');
 
     switch choice
         case 1
             disp('You selected Bisection.');
-
             func = input('Enter the function of x: ', 's');
-
             x_l = input('Enter the lower bound (x_l): ');
             x_u = input('Enter the upper bound (x_u): ');
             e_a = input('Enter the error tolerance (e_a, in percentage): ');
             i = input('Enter the maximum number of iterations (i): ');
 
-            root = bisection_method_project1(x_l, x_u, func, e_a, i);
+            [root_bisection, error_bisection] = bisection_method_project1(x_l, x_u, func, e_a, i);
 
         case 2
             disp('You selected False Position.');
@@ -106,6 +105,73 @@ while true
             disp(roots_result);
 
         case 10
+          disp('You selected to execute ALL methods.');
+
+          % Common Inputs for all applicable methods
+          func = input('Enter the function of x for all applicable methods: ', 's');
+          x_l = input('Enter the lower bound (x_l) for all applicable methods: ');
+          x_u = input('Enter the upper bound (x_u) for all applicable methods: ');
+          x_0 = input('Enter the initial guess (x_0) for all applicable methods: ');
+          e_a = input('Enter the error tolerance (e_a, in percentage) for all applicable methods: ');
+          i = input('Enter the maximum number of iterations (i) for all applicable methods: ');
+
+          % Bisection Method
+          disp('Executing Bisection Method...');
+          [root_bisection, error_bisection] = bisection_method_project1(x_l, x_u, func, e_a, i);
+          disp(['Bisection root: ', num2str(root_bisection)]);
+
+          % False Position Method
+          disp('Executing False Position Method...');
+          [root_false_position, error_false_position] = false_position_method_project1(x_l, x_u, func, e_a, i);
+          disp(['False Position root: ', num2str(root_false_position)]);
+
+          % Fixed-Point Iteration
+          disp('Executing Fixed-Point Iteration...');
+          g_func = input('Enter the function g(x) for Fixed-Point Iteration: ', 's');  % Specific to Fixed-Point
+          [root_fixed_point, error_fixed_point] = fixed_point_iteration_project1(x_0, func, g_func, e_a, i);
+          disp(['Fixed-Point Iteration root: ', num2str(root_fixed_point)]);
+
+          % Newton Method
+          disp('Executing Newton Method...');
+          func_prime_str = input('Enter the name of the derivative function (e.g., "d_trajectory_equation"): ', 's');  % Specific to Newton
+          [root_newton, error_newton] = newton_method_project1(x_0, func_handle, func_prime_handle, e_a, i);
+          disp(['Newton Method root: ', num2str(root_newton)]);
+
+          % Secant Method
+          disp('Executing Secant Method...');
+          x1 = input('Enter x1 for Secant Method: ');  % Specific to Secant
+          [root_secant, error_secant] = secant_method_project1(x0, x1, func_str, eps, max_iter);
+          disp(['Secant Method root: ', num2str(root_secant)]);
+
+          % Modified Secant Method
+          disp('Executing Modified Secant Method...');
+          delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
+          root = modified_secant_method(x_0, delta, func, e_a, i);
+          disp(['Modified Secant root: ', num2str(root)]);
+
+          % MATLAB fzero
+          disp('Executing MATLAB fzero...');
+          root = fzero(func, x_0);
+          disp(['MATLAB fzero root: ', num2str(root)]);
+
+          % Muller Method
+          disp('Executing Muller Method...');
+          x1 = input('Enter x1 for Muller Method: ');  % Specific to Muller
+          x2 = input('Enter x2 for Muller Method: ');  % Specific to Muller
+          root = muller_method(x_0, x1, x2, func, e_a, i);
+          disp(['Muller Method root: ', num2str(root)]);
+
+          % MATLAB roots
+          disp('Executing MATLAB roots...');
+          coef_str = input('Enter coefficients of polynomial separated by space (e.g., "2 0 -3 3 -4"): ', 's');  % Specific to MATLAB roots
+          coefficients = str2num(coef_str);
+          roots_result = roots(coefficients);
+          disp('MATLAB roots result:');
+          disp(roots_result);
+
+          disp('All methods executed.');
+
+        case 11
             disp('Exiting...');
             break;
 

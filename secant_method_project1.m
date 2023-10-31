@@ -1,4 +1,4 @@
-function root = secant_method_project1(x0, x1, func_str, eps, max_iter)
+function [x_vals, ea_vals] = secant_method_project1(x0, x1, func_str, eps, max_iter)
     [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, eps, max_iter);
 
     if no_iterations > 0  % Solution found
@@ -7,25 +7,6 @@ function root = secant_method_project1(x0, x1, func_str, eps, max_iter)
     else
         fprintf('Abort execution.\n');
     end
-
-    % Create a single figure window
-    figure;
-
-    % Plot the convergence of the root in the first subplot
-    subplot(1, 2, 1);
-    plot(1:no_iterations, x_vals, '-o');
-    title('Convergence of the Secant Method for Root Finding');
-    xlabel('Iteration');
-    ylabel('Estimated Root x');
-    grid on;
-
-    % Plot the error approximation in the second subplot
-    subplot(1, 2, 2);
-    plot(1:no_iterations, ea_vals, '-o');
-    title('Error Approximation of the Secant Method');
-    xlabel('Iteration');
-    ylabel('Error Approximation (%)');
-    grid on;
 end
 
 function [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, eps, max_iter)
@@ -50,12 +31,12 @@ function [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, e
         f_x0 = f_x1;
         f_x1 = feval(func_str, x1);
 
-        % Store the new x value for plotting
+        % Store the new x value for output
         x_vals = [x_vals x];
 
         ea = abs((x1 - x0) / x1) * 100;
 
-        % Store the new error value for plotting
+        % Store the new error value for output
         ea_vals = [ea_vals ea];
 
         iteration_counter = iteration_counter + 1;
