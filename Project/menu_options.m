@@ -119,44 +119,28 @@ while true
           delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
 
           % Bisection Method
-          disp('Executing Bisection Method...');
           [root_bisection, error_bisection] = bisection_method_project1(x_l, x_u, func, e_a, i);
-          disp(['Bisection root: ', num2str(root_bisection)]);
 
           % False Position Method
-          disp('Executing False Position Method...');
           [root_false_position, error_false_position] = false_position_method_project1(x_l, x_u, func, e_a, i);
-          disp(['False Position root: ', num2str(root_false_position)]);
 
           % Fixed-Point Iteration
-          disp('Executing Fixed-Point Iteration...');
           [root_fixed_point, error_fixed_point] = fixed_point_iteration_project1(x_0, func, g_func, e_a, i);
-          disp(['Fixed-Point Iteration root: ', num2str(root_fixed_point)]);
 
           % Newton Method
-          disp('Executing Newton Method...');
           [root_newton, error_newton] = newton_method_project1(x_l, func, func_prime, e_a, i);
-          disp(['Newton Method root: ', num2str(root_newton)]);
 
           % Secant Method
-          disp('Executing Secant Method...');
           [root_secant, error_secant] = secant_method_project1(x_l, x_u, func, e_a, i);
-          disp(['Secant Method root: ', num2str(root_secant)]);
 
           % Modified Secant Method
-          disp('Executing Modified Secant Method...');
           [root_modified_secant, error_modified_secant] = modified_secant_method_project1(x_l, delta, func, e_a, i);
-          disp(['Modified Secant root: ', num2str(root_modified_secant)]);
 
           % MATLAB fzero
-          disp('Executing MATLAB fzero...');
-          [root_fzero, error_fzero] = fzero(func, x_l, e_a, i);
-          disp(['MATLAB fzero root: ', num2str(root)]);
+          [root_fzero, error_fzero] = fzero_method_project1(func, x_l, e_a, i);
 
-          % Muller Method
-          disp('Executing Muller Method...');
-          root = muller_method(x_l, x_u, x_0, func, e_a, i);
-          disp(['Muller Method root: ', num2str(root)]);
+          % Get both root estimates and error approximations from Muller method
+          [root, error_muller] = muller_project1(x_l, x_u, x_0, func, e_a, i);
 
           % Initialize figure for plotting
           figure;
@@ -188,6 +172,7 @@ while true
           plot(error_secant, '-^', 'DisplayName', 'Secant');
           plot(error_modified_secant, '-v', 'DisplayName', 'Modified Secant');
           plot(error_fzero, '-<', 'DisplayName', 'fzero');
+          plot(error_muller, '->', 'DisplayName', 'Muller'); % Adding the Muller error plot
           hold off;
           xlabel('Iterations');
           ylabel('Error Approximations');
