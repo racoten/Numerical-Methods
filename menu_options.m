@@ -114,6 +114,9 @@ while true
           x_0 = input('Enter the initial guess (x_0) for all applicable methods: ');
           e_a = input('Enter the error tolerance (e_a, in percentage) for all applicable methods: ');
           i = input('Enter the maximum number of iterations (i) for all applicable methods: ');
+          g_func = input('Enter the function g(x) for Fixed-Point Iteration: ', 's');  % Specific to Fixed-Point
+          func_prime = input('Enter the name of the derivative function: ', 's');  % Specific to Newton
+          delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
 
           % Bisection Method
           disp('Executing Bisection Method...');
@@ -127,47 +130,69 @@ while true
 
           % Fixed-Point Iteration
           disp('Executing Fixed-Point Iteration...');
-          g_func = input('Enter the function g(x) for Fixed-Point Iteration: ', 's');  % Specific to Fixed-Point
           [root_fixed_point, error_fixed_point] = fixed_point_iteration_project1(x_0, func, g_func, e_a, i);
           disp(['Fixed-Point Iteration root: ', num2str(root_fixed_point)]);
 
           % Newton Method
           disp('Executing Newton Method...');
-          func_prime_str = input('Enter the name of the derivative function (e.g., "d_trajectory_equation"): ', 's');  % Specific to Newton
-          [root_newton, error_newton] = newton_method_project1(x_0, func_handle, func_prime_handle, e_a, i);
+          [root_newton, error_newton] = newton_method_project1(x_l, func, func_prime, e_a, i);
           disp(['Newton Method root: ', num2str(root_newton)]);
 
           % Secant Method
           disp('Executing Secant Method...');
-          x1 = input('Enter x1 for Secant Method: ');  % Specific to Secant
-          [root_secant, error_secant] = secant_method_project1(x0, x1, func_str, eps, max_iter);
+          [root_secant, error_secant] = secant_method_project1(x_l, x_u, func, e_a, i);
           disp(['Secant Method root: ', num2str(root_secant)]);
 
           % Modified Secant Method
           disp('Executing Modified Secant Method...');
-          delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
-          root = modified_secant_method(x_0, delta, func, e_a, i);
-          disp(['Modified Secant root: ', num2str(root)]);
+          [root_modified_secant, error_modified_secant] = modified_secant_method_project1(x_l, delta, func, e_a, i);
+          disp(['Modified Secant root: ', num2str(root_modified_secant)]);
 
           % MATLAB fzero
           disp('Executing MATLAB fzero...');
-          root = fzero(func, x_0);
+          [root_fzero, error_fzero] = fzero(func, x_l, e_a, i);
           disp(['MATLAB fzero root: ', num2str(root)]);
 
           % Muller Method
           disp('Executing Muller Method...');
-          x1 = input('Enter x1 for Muller Method: ');  % Specific to Muller
-          x2 = input('Enter x2 for Muller Method: ');  % Specific to Muller
-          root = muller_method(x_0, x1, x2, func, e_a, i);
+          root = muller_method(x_l, x_u, x_0, func, e_a, i);
           disp(['Muller Method root: ', num2str(root)]);
 
-          % MATLAB roots
-          disp('Executing MATLAB roots...');
-          coef_str = input('Enter coefficients of polynomial separated by space (e.g., "2 0 -3 3 -4"): ', 's');  % Specific to MATLAB roots
-          coefficients = str2num(coef_str);
-          roots_result = roots(coefficients);
-          disp('MATLAB roots result:');
-          disp(roots_result);
+          % Initialize figure for plotting
+          figure;
+
+          % Subplot for root estimates
+          subplot(2,1,1);
+          plot(root_bisection, '-o', 'DisplayName', 'Bisection');
+          hold on;
+          plot(root_false_position, '-x', 'DisplayName', 'False Position');
+          plot(root_fixed_point, '-s', 'DisplayName', 'Fixed-Point');
+          plot(root_newton, '-d', 'DisplayName', 'Newton');
+          plot(root_secant, '-^', 'DisplayName', 'Secant');
+          plot(root_modified_secant, '-v', 'DisplayName', 'Modified Secant');
+          plot(root_fzero, '-<', 'DisplayName', 'fzero');
+          plot(root, '->', 'DisplayName', 'Muller');
+          hold off;
+          xlabel('Iterations');
+          ylabel('Root Estimates');
+          title('Root Estimates Over Iterations');
+          legend;
+
+          % Subplot for error approximations
+          subplot(2,1,2);
+          plot(error_bisection, '-o', 'DisplayName', 'Bisection');
+          hold on;
+          plot(error_false_position, '-x', 'DisplayName', 'False Position');
+          plot(error_fixed_point, '-s', 'DisplayName', 'Fixed-Point');
+          plot(error_newton, '-d', 'DisplayName', 'Newton');
+          plot(error_secant, '-^', 'DisplayName', 'Secant');
+          plot(error_modified_secant, '-v', 'DisplayName', 'Modified Secant');
+          plot(error_fzero, '-<', 'DisplayName', 'fzero');
+          hold off;
+          xlabel('Iterations');
+          ylabel('Error Approximations');
+          title('Error Approximations Over Iterations');
+          legend;
 
           disp('All methods executed.');
 
