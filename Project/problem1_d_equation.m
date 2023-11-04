@@ -1,4 +1,4 @@
-function dy = d_trajectory_equation(theta_0)
+function dy = problem1_d_equation(theta_0)
     g = 9.81;  % gravitational acceleration
     v_0 = 30;  % initial velocity
     x = 90;    % horizontal distance

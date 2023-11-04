@@ -50,7 +50,7 @@ while true
             e_a = input('Enter the error tolerance (e_a, in percentage): ');
             i = input('Enter the maximum number of iterations (i): ');
 
-            [root_false_position, error_false_position] = false_position_method(x_l, x_u, func, e_a, i);
+            [root_false_position, error_false_position] = false_position_method_project1(x_l, x_u, func, e_a, i);
             disp(['Estimated Root (False Position): ', num2str(root_false_position(end))]);
             disp(['Error Approximation (False Position): ', num2str(error_false_position(end)), '%']);
 
@@ -228,18 +228,40 @@ while true
             ylabel('Error Approximation (%)');
 
         case 9
-          disp('You selected to execute ALL methods.');
+            disp('You selected to execute ALL methods.');
 
-          % Common Inputs for all applicable methods
-          func = input('Enter the function of x for all applicable methods: ', 's');
-          x_l = input('Enter the lower bound (x_l) for all applicable methods: ');
-          x_u = input('Enter the upper bound (x_u) for all applicable methods: ');
-          x_0 = input('Enter the initial guess (x_0) for all applicable methods: ');
-          e_a = input('Enter the error tolerance (e_a, in percentage) for all applicable methods: ');
-          i = input('Enter the maximum number of iterations (i) for all applicable methods: ');
-          g_func = input('Enter the function g(x) for Fixed-Point Iteration: ', 's');  % Specific to Fixed-Point
-          func_prime = input('Enter the name of the derivative function: ', 's');  % Specific to Newton
-          delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
+            % Ask if the function requires more than one input
+            multiInput = input('Does the function require more than one input (y/n)? ', 's');
+            if multiInput == 'y'
+                % Common additional parameter input
+                additionalParam = input('Enter the additional parameter (e.g., Re for Reynolds number): ');
+            end
+
+            % Common Inputs for all applicable methods
+            x_l = input('Enter the lower bound (x_l) for all applicable methods: ');
+            x_u = input('Enter the upper bound (x_u) for all applicable methods: ');
+            x_0 = input('Enter the initial guess (x_0) for all applicable methods: ');
+            e_a = input('Enter the error tolerance (e_a, in percentage) for all applicable methods: ');
+            i = input('Enter the maximum number of iterations (i) for all applicable methods: ');
+            delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
+
+            % Request for function handles directly
+            if multiInput == 'y'
+                % Since additional parameter is required, get the handles from the defined functions
+                func_handle_name = input('Enter the name of the function for f(x): ');
+                g_func_handle_name = input('Enter the name of the function for g(x) for Fixed-Point Iteration: ');
+                func_prime_handle_name = input('Enter the name of the function for the derivative of f(x): ');
+
+                % Creating function handles with the additional parameter locked in
+                func = str2func([func_handle_name, '(', num2str(additionalParam), ')']);
+                g_func = str2func([g_func_handle_name, '(', num2str(additionalParam), ')']);
+                func_prime = str2func([func_prime_handle_name, '(', num2str(additionalParam), ')']);
+            else
+                % Request for function handles as input if no additional parameter is needed
+                func = input('Enter the handle for the function of x: ');
+                g_func = input('Enter the handle for the function g(x) for Fixed-Point Iteration: ');
+                func_prime = input('Enter the handle for the derivative function: ');
+            end
 
           % Bisection Method
           [root_bisection, error_bisection] = bisection_method_project1(x_l, x_u, func, e_a, i);

@@ -1,4 +1,4 @@
-function theta_0 = g_of_theta(theta_0)
+function theta_0 = g_of_problem1_equation(theta_0)
     g = 9.81;  % gravitational acceleration
     v_0 = 30;  % initial velocity
     x = 90;    % horizontal distance
