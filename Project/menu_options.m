@@ -228,40 +228,39 @@ while true
             ylabel('Error Approximation (%)');
 
         case 9
-            disp('You selected to execute ALL methods.');
+          disp('You selected to execute ALL methods.');
 
-            % Ask if the function requires more than one input
-            multiInput = input('Does the function require more than one input (y/n)? ', 's');
-            if multiInput == 'y'
-                % Common additional parameter input
-                additionalParam = input('Enter the additional parameter (e.g., Re for Reynolds number): ');
-            end
+          % Ask if the function requires more than one input
+          multiInput = input('Does the function require more than one input (y/n)? ', 's');
+          if multiInput == 'y'
+              % Common additional parameter input
+              additionalParam = input('Enter the additional parameter (e.g., Re for Reynolds number): ');
+          end
 
-            % Common Inputs for all applicable methods
-            x_l = input('Enter the lower bound (x_l) for all applicable methods: ');
-            x_u = input('Enter the upper bound (x_u) for all applicable methods: ');
-            x_0 = input('Enter the initial guess (x_0) for all applicable methods: ');
-            e_a = input('Enter the error tolerance (e_a, in percentage) for all applicable methods: ');
-            i = input('Enter the maximum number of iterations (i) for all applicable methods: ');
-            delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
+          % Common Inputs for all applicable methods
+          x_l = input('Enter the lower bound (x_l) for all applicable methods: ');
+          x_u = input('Enter the upper bound (x_u) for all applicable methods: ');
+          x_0 = input('Enter the initial guess (x_0) for all applicable methods: ');
+          e_a = input('Enter the error tolerance (e_a, in percentage) for all applicable methods: ');
+          i = input('Enter the maximum number of iterations (i) for all applicable methods: ');
+          delta = input('Enter delta for Modified Secant Method: ');  % Specific to Modified Secant
 
-            % Request for function handles directly
-            if multiInput == 'y'
-                % Since additional parameter is required, get the handles from the defined functions
-                func_handle_name = input('Enter the name of the function for f(x): ');
-                g_func_handle_name = input('Enter the name of the function for g(x) for Fixed-Point Iteration: ');
-                func_prime_handle_name = input('Enter the name of the function for the derivative of f(x): ');
+          if multiInput == 'y'
+              % Since additional parameter is required, get the handles from the defined functions
+              func_handle_name = input('Enter the name of the function for f(x): ', 's');
+              g_func_handle_name = input('Enter the name of the function for g(x) for Fixed-Point Iteration: ', 's');
+              func_prime_handle_name = input('Enter the name of the function for the derivative of f(x): ', 's');
 
-                % Creating function handles with the additional parameter locked in
-                func = str2func([func_handle_name, '(', num2str(additionalParam), ')']);
-                g_func = str2func([g_func_handle_name, '(', num2str(additionalParam), ')']);
-                func_prime = str2func([func_prime_handle_name, '(', num2str(additionalParam), ')']);
-            else
-                % Request for function handles as input if no additional parameter is needed
-                func = input('Enter the handle for the function of x: ');
-                g_func = input('Enter the handle for the function g(x) for Fixed-Point Iteration: ');
-                func_prime = input('Enter the handle for the derivative function: ');
-            end
+              % Creating function handles with the additional parameter locked in
+              func = feval(func_handle_name, additionalParam);
+              g_func = feval(g_func_handle_name, additionalParam);
+              func_prime = feval(func_prime_handle_name, additionalParam);
+          else
+              % Request for function handles as input if no additional parameter is needed
+              func = input('Enter the handle for the function of x: ', 's');
+              g_func = input('Enter the handle for the function g(x) for Fixed-Point Iteration: ', 's');
+              func_prime = input('Enter the handle for the derivative function: ', 's');
+          end
 
           % Bisection Method
           [root_bisection, error_bisection] = bisection_method_project1(x_l, x_u, func, e_a, i);

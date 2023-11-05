@@ -46,7 +46,7 @@ function [estimated_roots, approx_errors] = muller_project1(p0, p1, p2, func, TO
     end
 
     if i > N0
-        formatSpec = string('The method failed after N0 iterations, N0= %d \n');
+        formatSpec = 'The method failed after N0 iterations, N0= %d \n';
         fprintf(formatSpec, N0);
     end
 end
