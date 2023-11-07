@@ -1,4 +1,4 @@
-function [xr, ea] = false_position_method_project1(xl, xu, func, es, maxit)
+function [xr, i, ea] = false_position_method_project1(xl, xu, func, es, maxit)
   % Find root near x1 using the false position method.
   % Input: func     string containing name of function
   %       xl, xu    initial guesses

@@ -1,4 +1,4 @@
-function [x_vals, ea_vals] = modified_secant_method_project1(x0, delta, func_handle, eps, max_iter)
+function [x_vals, no_iterations, ea_vals] = modified_secant_method_project1(x0, delta, func_handle, eps, max_iter)
     [solution, no_iterations, x_vals, ea_vals] = modified_secant(func_handle, x0, delta, eps, max_iter);
 
     if no_iterations > 0  % Solution found

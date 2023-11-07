@@ -1,4 +1,4 @@
-function [x_vals, ea_vals] = newton_method_project1(x_0, func_handle, func_prime_handle, e_a, i)
+function [x_vals, iter, ea_vals] = newton_method_project1(x_0, func_handle, func_prime_handle, e_a, i)
     iter = 0;
     x = x_0;
 

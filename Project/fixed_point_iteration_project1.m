@@ -1,4 +1,4 @@
-function [x_vals, ea_vals] = fixed_point_iteration_project1(x_0, f_func_str, g_func_str, e_a, i)
+function [x_vals, iter, ea_vals] = fixed_point_iteration_project1(x_0, f_func_str, g_func_str, e_a, i)
     iter = 0;
     x = x_0;
 

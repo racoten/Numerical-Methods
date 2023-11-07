@@ -1,4 +1,4 @@
-function [estimated_roots, approx_errors] = muller_project1(p0, p1, p2, func, TOL, N0)
+function [estimated_roots, i, approx_errors] = muller_project1(p0, p1, p2, func, TOL, N0)
     format long;
 
     h1 = p1 - p0;

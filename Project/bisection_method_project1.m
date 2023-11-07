@@ -1,4 +1,4 @@
-function [xr, ea] = bisection_method_project1(xl, xu, func, es, maxit)
+function [xr, i, ea] = bisection_method_project1(xl, xu, func, es, maxit)
   % Find root using the bisection method.
   % Input: xl      lower bound
   %        xu      upper bound

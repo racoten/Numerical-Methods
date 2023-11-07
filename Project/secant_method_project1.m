@@ -1,4 +1,4 @@
-function [x_vals, ea_vals] = secant_method_project1(x0, x1, func_str, eps, max_iter)
+function [x_vals, no_iterations, ea_vals] = secant_method_project1(x0, x1, func_str, eps, max_iter)
     [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, eps, max_iter);
 
     if no_iterations > 0  % Solution found
@@ -17,13 +17,19 @@ function [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, e
     x_vals = NaN(1, max_iter);  % Initialize with NaN values
     ea_vals = NaN(1, max_iter); % Initialize with NaN values
 
-    while abs(f_x1) > eps && iteration_counter < max_iter
-        try
-            denominator = (f_x1 - f_x0) / (x1 - x0);
-            x = x1 - f_x1 / denominator;
-        catch
+    while iteration_counter < max_iter
+        denominator = f_x1 - f_x0;
+        if denominator == 0
             fprintf('Error! - denominator zero for x = %f\n', x1);
+            solution = NaN;
             return;
+        end
+
+        x = x1 - (f_x1 * (x1 - x0) / denominator);
+        ea = abs((x - x1) / x) * 100;
+
+        if ea <= eps  % Convergence criterion
+            break;
         end
 
         x0 = x1;
@@ -31,12 +37,8 @@ function [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, e
         f_x0 = f_x1;
         f_x1 = feval(func_str, x1);
 
-        % Store the new x value for output at iteration_counter+1 index
+        % Store the new x value and error value
         x_vals(iteration_counter + 1) = x;
-
-        ea = abs((x1 - x0) / x1) * 100;
-
-        % Store the new error value for output at iteration_counter+1 index
         ea_vals(iteration_counter + 1) = ea;
 
         iteration_counter = iteration_counter + 1;
@@ -45,4 +47,5 @@ function [solution, no_iterations, x_vals, ea_vals] = secant(func_str, x0, x1, e
     solution = x1;
     no_iterations = iteration_counter;
 end
+
 

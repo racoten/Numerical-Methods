@@ -1,4 +1,4 @@
-function [x_vals, ea_vals] = fzero_method_project1(f_func, x0, tol, max_iter)
+function [x_vals, iter, ea_vals] = fzero_method_project1(f_func, x0, tol, max_iter)
 
     x_vals = [];
     ea_vals = [];

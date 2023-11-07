@@ -263,28 +263,53 @@ while true
           end
 
           % Bisection Method
-          [root_bisection, error_bisection] = bisection_method_project1(x_l, x_u, func, e_a, i);
+          [root_bisection, iter_bisection, error_bisection] = bisection_method_project1(x_l, x_u, func, e_a, i);
 
           % False Position Method
-          [root_false_position, error_false_position] = false_position_method_project1(x_l, x_u, func, e_a, i);
+          [root_false_position, iter_false_position, error_false_position] = false_position_method_project1(x_l, x_u, func, e_a, i);
 
           % Fixed-Point Iteration
-          [root_fixed_point, error_fixed_point] = fixed_point_iteration_project1(x_0, func, g_func, e_a, i);
+          [root_fixed_point, iter_fixed_point, error_fixed_point] = fixed_point_iteration_project1(x_0, func, g_func, e_a, i);
 
           % Newton Method
-          [root_newton, error_newton] = newton_method_project1(x_l, func, func_prime, e_a, i);
+          [root_newton, iter_newton, error_newton] = newton_method_project1(x_0, func, func_prime, e_a, i);
 
           % Secant Method
-          [root_secant, error_secant] = secant_method_project1(x_l, x_u, func, e_a, i);
+          [root_secant, iter_secant, error_secant] = secant_method_project1(x_l, x_u, func, e_a, i);
 
           % Modified Secant Method
-          [root_modified_secant, error_modified_secant] = modified_secant_method_project1(x_l, delta, func, e_a, i);
+          [root_modified_secant, iter_modified_secant, error_modified_secant] = modified_secant_method_project1(x_0, delta, func, e_a, i);
 
-          % MATLAB fzero
-          [root_fzero, error_fzero] = fzero_method_project1(func, x_l, e_a, i);
+          % fzero
+          [root_fzero, iter_fzero, error_fzero] = fzero_method_project1(func, x_l, e_a, i);
+          error_fzero = abs(fval);
 
-          % Get both root estimates and error approximations from Muller method
-          [root, error_muller] = muller_project1(x_l, x_u, x_0, func, e_a, i);
+          % Muller Method (assuming it uses all three initial guesses)
+          [root_muller, iter_muller, error_muller] = muller_project1(x_l, x_u, x_0, func, e_a, i);
+
+          % Bisection Method
+          fprintf('Bisection Method: Root = %f, Iterations = %d, Error = %f%%\n', root_bisection, iter_bisection, error_bisection*100);
+
+          % False Position Method
+          fprintf('False Position Method: Root = %f, Iterations = %d, Error = %f%%\n', root_false_position, iter_false_position, error_false_position*100);
+
+          % Fixed-Point Iteration
+          fprintf('Fixed-Point Iteration: Root = %f, Iterations = %d, Error = %f%%\n', root_fixed_point, iter_fixed_point, error_fixed_point*100);
+
+          % Newton Method
+          fprintf('Newton Method: Root = %f, Iterations = %d, Error = %f%%\n', root_newton, iter_newton, error_newton*100);
+
+          % Secant Method
+          fprintf('Secant Method: Root = %f, Iterations = %d, Error = %f%%\n', root_secant, iter_secant, error_secant*100);
+
+          % Modified Secant Method
+          fprintf('Modified Secant Method: Root = %f, Iterations = %d, Error = %f%%\n', root_modified_secant, iter_modified_secant, error_modified_secant*100);
+
+          % fzero
+          fprintf('fzero Method: Root = %f, Iterations = %d, Error = %f%%\n', root_fzero, iter_fzero, error_fzero*100);
+
+          % Muller Method
+          fprintf('Muller Method: Root = %f, Iterations = %d, Error = %f%%\n', root_muller, iter_muller, error_muller*100);
 
           % Initialize figure for plotting
           figure;
@@ -299,7 +324,7 @@ while true
           plot(root_secant, '-^', 'DisplayName', 'Secant');
           plot(root_modified_secant, '-v', 'DisplayName', 'Modified Secant');
           plot(root_fzero, '-<', 'DisplayName', 'fzero');
-          plot(root, '->', 'DisplayName', 'Muller');
+          plot(root_muller, '->', 'DisplayName', 'Muller');
           hold off;
           xlabel('Iterations');
           ylabel('Root Estimates');
