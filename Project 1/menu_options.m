@@ -282,34 +282,47 @@ while true
 
           % fzero
           [root_fzero, iter_fzero, error_fzero] = fzero_method_project1(func, x_l, e_a, i);
-          error_fzero = abs(fval);
 
           % Muller Method (assuming it uses all three initial guesses)
           [root_muller, iter_muller, error_muller] = muller_project1(x_l, x_u, x_0, func, e_a, i);
 
+          % Open a text file for writing
+          fileID = fopen('method_results.txt', 'w');
+
           % Bisection Method
-          fprintf('Bisection Method: Root = %f, Iterations = %d, Error = %f%%\n', root_bisection, iter_bisection, error_bisection*100);
+          disp(['Bisection Method: Root = ', num2str(root_bisection), ', Iterations = ', num2str(iter_bisection), ', Error = ', num2str(error_bisection*100), '%']);
+          fprintf(fileID, 'Bisection Method: Root = %f, Iterations = %d, Error = %f%%\n', root_bisection, iter_bisection, error_bisection*100);
 
           % False Position Method
-          fprintf('False Position Method: Root = %f, Iterations = %d, Error = %f%%\n', root_false_position, iter_false_position, error_false_position*100);
+          disp(['False Position Method: Root = ', num2str(root_false_position), ', Iterations = ', num2str(iter_false_position), ', Error = ', num2str(error_false_position*100), '%']);
+          fprintf(fileID, 'False Position Method: Root = %f, Iterations = %d, Error = %f%%\n', root_false_position, iter_false_position, error_false_position*100);
 
           % Fixed-Point Iteration
-          fprintf('Fixed-Point Iteration: Root = %f, Iterations = %d, Error = %f%%\n', root_fixed_point, iter_fixed_point, error_fixed_point*100);
+          disp(['Fixed-Point Iteration: Root = ', num2str(root_fixed_point), ', Iterations = ', num2str(iter_fixed_point), ', Error = ', num2str(error_fixed_point*100), '%']);
+          fprintf(fileID, 'Fixed-Point Iteration: Root = %f, Iterations = %d, Error = %f%%\n', root_fixed_point, iter_fixed_point, error_fixed_point*100);
 
           % Newton Method
-          fprintf('Newton Method: Root = %f, Iterations = %d, Error = %f%%\n', root_newton, iter_newton, error_newton*100);
+          disp(['Newton Method: Root = ', num2str(root_newton), ', Iterations = ', num2str(iter_newton), ', Error = ', num2str(error_newton*100), '%']);
+          fprintf(fileID, 'Newton Method: Root = %f, Iterations = %d, Error = %f%%\n', root_newton, iter_newton, error_newton*100);
 
           % Secant Method
-          fprintf('Secant Method: Root = %f, Iterations = %d, Error = %f%%\n', root_secant, iter_secant, error_secant*100);
+          disp(['Secant Method: Root = ', num2str(root_secant), ', Iterations = ', num2str(iter_secant), ', Error = ', num2str(error_secant*100), '%']);
+          fprintf(fileID, 'Secant Method: Root = %f, Iterations = %d, Error = %f%%\n', root_secant, iter_secant, error_secant*100);
 
           % Modified Secant Method
-          fprintf('Modified Secant Method: Root = %f, Iterations = %d, Error = %f%%\n', root_modified_secant, iter_modified_secant, error_modified_secant*100);
+          disp(['Modified Secant Method: Root = ', num2str(root_modified_secant), ', Iterations = ', num2str(iter_modified_secant), ', Error = ', num2str(error_modified_secant*100), '%']);
+          fprintf(fileID, 'Modified Secant Method: Root = %f, Iterations = %d, Error = %f%%\n', root_modified_secant, iter_modified_secant, error_modified_secant*100);
 
-          % fzero
-          fprintf('fzero Method: Root = %f, Iterations = %d, Error = %f%%\n', root_fzero, iter_fzero, error_fzero*100);
+          % fzero Method
+          disp(['fzero Method: Root = ', num2str(root_fzero), ', Iterations = ', num2str(iter_fzero), ', Error = ', num2str(error_fzero*100), '%']);
+          fprintf(fileID, 'fzero Method: Root = %f, Iterations = %d, Error = %f%%\n', root_fzero, iter_fzero, error_fzero*100);
 
           % Muller Method
-          fprintf('Muller Method: Root = %f, Iterations = %d, Error = %f%%\n', root_muller, iter_muller, error_muller*100);
+          disp(['Muller Method: Root = ', num2str(root_muller), ', Iterations = ', num2str(iter_muller), ', Error = ', num2str(error_muller*100), '%']);
+          fprintf(fileID, 'Muller Method: Root = %f, Iterations = %d, Error = %f%%\n', root_muller, iter_muller, error_muller*100);
+
+          % Close the file
+          fclose(fileID);
 
           % Initialize figure for plotting
           figure;
